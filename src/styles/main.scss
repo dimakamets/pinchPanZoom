@@ -1,0 +1,81 @@
+
+@import "base/mixins";
+@import "base/vars";
+
+html,
+body{
+    margin: 0;
+    padding: 0;
+}
+#app{
+    @include size(100vw, 100vh);
+    overflow: hidden;
+}
+#wrapper,
+#image-container{
+    @include size(100%);
+}
+#image-container{
+    @include flexCenter;
+}
+#zoomedImg{
+    display: block;
+    margin: 0 auto;
+    //@include size(auto,100%);
+    @include maxSize(100%);
+    transition: 0.3s;
+    transform-origin: 0 0;
+    &.zoomed{
+        transition: 0s;
+    }
+}
+.cursor-plus, .cursor-minus {
+    top: calc(50% - 20px);
+    left: calc(50% - 20px);
+    position: absolute;
+    opacity: 0;
+    @include size(42px);
+    margin: -20px 0 0 -20px;
+    background-color: rgba($white, 0.8);
+    border-radius: 50%;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+    cursor: none;
+    display: none;
+    pointer-events: none;
+    @media screen and (max-width: $tablet) {
+        display: none!important;
+    }
+    @media screen and (min-width: $minDesktop) {
+        &.active {
+            display: flex
+        }
+        &:hover, &.active {
+            opacity: 1
+        }
+    }
+
+    &::before, &::after {
+        content: '';
+        @include size(12px, 1px);
+        display: block;
+        background-color: $lightBlack;
+        position: absolute;
+        @include top-center($top: 20px);
+    }
+
+    &::before {
+    }
+
+    &::after {
+        transform: rotate(90deg);
+    }
+
+}
+
+.cursor-minus {
+    &::after {
+        display: none
+    }
+}
